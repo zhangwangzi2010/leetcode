@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,11 +10,11 @@ bool Verify(vector< vector<int> > total_array_list, vector<int>& items_array);
 //static vector< vector<int> > select_list;
 
     vector< vector<int> > threeSum(vector<int>& nums) {
-        BubbleSort(nums);
+        //BubbleSort(nums);
+        sort(nums.begin(), nums.end());
 
         int numbers_array = nums.size();
         vector< vector<int> > select_list;
-        int index = -1;
         int prev_first_num = nums[0];
  
         for(int i = 0; i < numbers_array-2; i++) {
@@ -29,8 +30,8 @@ bool Verify(vector< vector<int> > total_array_list, vector<int>& items_array);
            
             while(head < tail) {
                 int sum = nums[head] + nums[tail];
-                int prev_head_num = nums[head];
-                int prev_tail_num = nums[tail];
+                //int prev_head_num = nums[head];
+                //int prev_tail_num = nums[tail];
 
                 if (sum == target_2sum) {
                     int items[3];
@@ -38,8 +39,14 @@ bool Verify(vector< vector<int> > total_array_list, vector<int>& items_array);
                     items[1] = nums[head];
                     items[2] = nums[tail];
                     vector<int> items_array(items, items+3);
-                    select_list.push_back(items_array);
-                    
+                    bool IsDupFlag = Verify(select_list, items_array);
+                    if (IsDupFlag == false) {
+                       select_list.push_back(items_array);
+                    }
+                  
+                    head++;
+                    tail--;
+                    /*
                     while(nums[++head] == prev_head_num) {
                         prev_head_num = nums[head];
                     }    
@@ -47,16 +54,23 @@ bool Verify(vector< vector<int> > total_array_list, vector<int>& items_array);
                     while(nums[--tail] == prev_tail_num) {
                         prev_tail_num = nums[tail];                     
                     }
+                    */
                 }
                 else if (sum < target_2sum) {
+                    head++;
+                    /*
                     while(nums[++head] == prev_head_num) {                         
                         prev_head_num = nums[head];
                     }
+                    */
                 }
                 else {
+                    tail--;
+                    /*
                     while(nums[--tail] == prev_tail_num) {
                         prev_tail_num = nums[tail];
                     }
+                    */
                 }
 
             }
